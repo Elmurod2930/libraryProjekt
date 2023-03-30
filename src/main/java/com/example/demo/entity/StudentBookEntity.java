@@ -8,6 +8,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.UUID;
+
 @Getter
 @Setter
 @Entity(name = "student_book")
@@ -28,4 +29,9 @@ public class StudentBookEntity {
     private Timestamp returnedDate;
     @Column(name = "duration")
     private Integer duration;
+
+    public StudentBookEntity() {
+        this.status=StudentStatus.TAKEN;
+        this.duration = returnedDate.toLocalDateTime().compareTo(createdDate.toLocalDateTime());
+    }
 }

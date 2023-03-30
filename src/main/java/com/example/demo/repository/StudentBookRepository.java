@@ -1,6 +1,6 @@
 package com.example.demo.repository;
 
-import com.example.demo.entity.BookEntity;
+import com.example.demo.entity.StudentBookEntity;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -12,39 +12,28 @@ import java.util.LinkedList;
 import java.util.List;
 
 @Repository
-public class BookRepository {
+public class StudentBookRepository {
     @Autowired
     private SessionFactory sessionFactory;
 
-    public BookEntity saveStudent(BookEntity book) {
-        Session session = sessionFactory.openSession();
-        Transaction transaction = session.beginTransaction();
-        session.save(book);
-
-        transaction.commit();
-        session.close();
-        return book;
-    }
-
-    public List<BookEntity> getAll() {
+    public void create(StudentBookEntity entity) {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
         try {
-            Query<BookEntity> query = session.createQuery("from BookEntity", BookEntity.class);
-            return query.getResultList();
+            session.save(entity);
         } catch (RuntimeException e) {
-            return new LinkedList<>();
+            e.printStackTrace();
         } finally {
             transaction.commit();
             session.close();
         }
     }
 
-    public BookEntity getById(Integer id) {
+    public StudentBookEntity getById(String id) {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
         try {
-            return session.find(BookEntity.class, id);
+            return session.find(StudentBookEntity.class, id);
         } catch (RuntimeException e) {
             return null;
         } finally {
@@ -53,28 +42,27 @@ public class BookRepository {
         }
     }
 
-    public Boolean delete(BookEntity entity) {
+    public void update(StudentBookEntity entity) {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
         try {
-            session.delete(entity);
-            return true;
+            session.update(entity);
         } catch (RuntimeException e) {
-            return false;
+            e.printStackTrace();
         } finally {
             transaction.commit();
             session.close();
         }
     }
 
-    public Boolean update(BookEntity entity) {
+    public List<StudentBookEntity> getAll() {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
         try {
-            session.update(entity);
-            return true;
+            Query<StudentBookEntity> query = session.createQuery("from StudentBookEntity", StudentBookEntity.class);
+            return query.getResultList();
         } catch (RuntimeException e) {
-            return false;
+            return new LinkedList<>();
         } finally {
             transaction.commit();
             session.close();
