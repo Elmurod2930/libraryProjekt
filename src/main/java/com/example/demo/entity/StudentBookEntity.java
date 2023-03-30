@@ -31,7 +31,7 @@ public class StudentBookEntity {
     private Integer duration;
 
     public StudentBookEntity() {
-        this.status=StudentStatus.TAKEN;
-        this.duration = returnedDate.toLocalDateTime().compareTo(createdDate.toLocalDateTime());
+//        this.status=StudentStatus.TAKEN;
+//        this.duration = returnedDate.toLocalDateTime().compareTo(createdDate.toLocalDateTime());
     }
 }

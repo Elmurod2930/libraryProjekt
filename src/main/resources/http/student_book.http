@@ -1,0 +1,30 @@
+### student_book created
+POST http://localhost:8081/student_book/create
+Content-Type: application/json
+
+{
+  "studentId": 1,
+  "bookId": 1,
+  "returnedDate": "2023-09-09"
+}
+
+### update student book
+PUT http://localhost:8081/student_book/update/1
+Content-Type: application/json
+
+{
+  "studentId": 1,
+  "bookId": 1,
+  "returnedDate": "2024-09-09"
+}
+### student book list
+GET http://localhost:8081/student_book/list
+
+### student book by id
+GET http://localhost:8081/student_book/get/1
+
+### return all student taken book
+GET http://localhost:8081/student_book/student/1
+
+### return all book taken list
+GET http://localhost:8081/student_book/book/1
