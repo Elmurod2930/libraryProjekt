@@ -1,0 +1,30 @@
+### Student create
+POST localhost:8081/student/create
+Content-Type: application/json
+
+{
+  "name": "Toshmat",
+  "surname": "Toshmatov",
+  "phone": "1234"
+}
+
+### Student list
+GET localhost:8081/student/list
+
+### Student by id
+GET localhost:8081/student/get/2
+
+### Student delete
+DELETE localhost:8081/student/delete/4
+
+### Student update
+PUT localhost:8081/student/update/3
+Content-Type: application/json
+
+{
+  "name": "Qo'y",
+  "surname": "Qo'chqorov",
+  "phone": "123456"
+}
+
+

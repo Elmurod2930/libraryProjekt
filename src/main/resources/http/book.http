@@ -1,0 +1,28 @@
+### Book create
+POST  localhost:8081/book/create
+Content-Type: application/json
+
+{
+  "title": "Java",
+  "author": "Dasturlash.uz",
+  "publish_year": "2002-02-02"
+}
+
+### Book list
+GET localhost:8081/book/list
+
+### Book by id
+GET localhost:8081/book/get/1
+
+### Book delete
+DELETE localhost:8081/book/delete/4
+
+### Book update
+PUT localhost:8081/book/update/2
+Content-Type: application/json
+
+{
+  "title": "Sql",
+  "author": "sql",
+  "publish_year": "2002-02-02"
+}
