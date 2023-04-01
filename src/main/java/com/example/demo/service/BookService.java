@@ -53,7 +53,7 @@ public class BookService {
         BookEntity entity = bookRepository.getById(id);
         BookDTO dto = new BookDTO();
         if (entity == null) {
-            return dto;
+            throw new AppException("bunaqa idli book yo'q");
         }
         dto.setId(entity.getId());
         dto.setAuthor(entity.getAuthor());
@@ -65,7 +65,7 @@ public class BookService {
     public Boolean delete(Integer id) {
         BookEntity entity = bookRepository.getById(id);
         if (entity == null) {
-            return false;
+            throw new AppException("bunaqa idli book yo'q");
         }
         return bookRepository.delete(entity);
     }
@@ -73,7 +73,7 @@ public class BookService {
     public Boolean update(Integer id, BookDTO dto) {
         BookEntity entity = bookRepository.getById(id);
         if (entity == null) {
-            return null;
+            throw new AppException("bunaqa idli book yo'q");
         }
         entity.setAuthor(dto.getAuthor());
         entity.setTitle(dto.getTitle());

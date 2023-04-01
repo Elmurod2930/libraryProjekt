@@ -41,18 +41,33 @@ public class StudentController {
     }
 
     @GetMapping(value = "/get/{id}")
-    public ResponseEntity<StudentDTO> getById(@PathVariable("id") Integer id) {
-        return ResponseEntity.ok(studentService.getById(id));
+    public ResponseEntity<?> getById(@PathVariable("id") Integer id) {
+        try {
+            StudentDTO studentDTO = studentService.getById(id);
+            return ResponseEntity.ok(studentService.getById(id));
+        } catch (AppException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     @DeleteMapping(value = "/delete/{id}")
-    public ResponseEntity<Boolean> delete(@PathVariable("id") Integer id) {
-        return ResponseEntity.ok(studentService.delete(id));
+    public ResponseEntity<?> delete(@PathVariable("id") Integer id) {
+        try {
+            StudentDTO studentDTO = studentService.getById(id);
+            return ResponseEntity.ok(studentService.delete(id));
+        } catch (AppException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     @PutMapping(value = "/update/{id}")
-    public ResponseEntity<Boolean> update(@PathVariable("id") Integer id, @RequestBody StudentDTO studentDTO) {
-        return ResponseEntity.ok(studentService.update(id, studentDTO));
+    public ResponseEntity<?> update(@PathVariable("id") Integer id, @RequestBody StudentDTO studentDTO) {
+        try {
+            StudentDTO dto=studentService.getById(id);
+            return ResponseEntity.ok(studentService.update(id, studentDTO));
+        } catch (AppException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
 }

@@ -78,9 +78,6 @@ public class StudentBookService {
     public StudentBookDTO getById(String id) {
         StudentBookEntity entity = studentBookRepository.getById(id);
         StudentBookDTO dto = new StudentBookDTO();
-        if (entity == null) {
-            return dto;
-        }
         dto.setBookId(entity.getBook().getId());
         dto.setStudentId(entity.getStudent().getId());
         dto.setCreatedDate(entity.getCreatedDate());
@@ -91,9 +88,10 @@ public class StudentBookService {
     }
 
     public List<BookDTO> getStudentTakenList(Integer studentId) {
+        // TODO: 4/2/2023
         StudentEntity student = studentRepository.getById(studentId);
         if (student == null) {
-            return new LinkedList<>();
+            throw new AppException("bunaqa idli student yo'q");
         }
         List<Integer> bookIdList = studentBookRepository.getBookById(studentId);
         List<BookDTO> bookDTOList = new LinkedList<>();
@@ -113,6 +111,7 @@ public class StudentBookService {
     }
 
     public List<StudentBookDTO> getTakenBook(Integer bookId) {
+        // TODO: 4/2/2023
         List<StudentBookEntity> entityList = studentBookRepository.getTakenBookById(bookId);
         return getStudentBookDTO(entityList);
     }

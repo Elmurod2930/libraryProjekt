@@ -5,20 +5,20 @@ Content-Type: application/json
 {
   "name": "Toshmat",
   "surname": "Toshmatov",
-  "phone": "1234"
+  "phone": "12343456"
 }
 
 ### Student list
 GET localhost:8081/student/list
 
 ### Student by id
-GET localhost:8081/student/get/2
+GET localhost:8081/student/get/3
 
 ### Student delete
-DELETE localhost:8081/student/delete/4
+DELETE localhost:8081/student/delete/1
 
 ### Student update
-PUT localhost:8081/student/update/3
+PUT localhost:8081/student/update/1
 Content-Type: application/json
 
 {

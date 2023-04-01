@@ -12,13 +12,13 @@ Content-Type: application/json
 GET localhost:8081/book/list
 
 ### Book by id
-GET localhost:8081/book/get/1
+GET localhost:8081/book/get/2
 
 ### Book delete
-DELETE localhost:8081/book/delete/4
+DELETE localhost:8081/book/delete/2
 
 ### Book update
-PUT localhost:8081/book/update/2
+PUT localhost:8081/book/update/1
 Content-Type: application/json
 
 {

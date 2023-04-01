@@ -33,18 +33,34 @@ public class BookController {
     }
 
     @GetMapping(value = "/get/{id}")
-    public ResponseEntity<BookDTO> getById(@PathVariable("id") Integer id) {
-        BookDTO dto = bookService.getById(id);
-        return ResponseEntity.ok(dto);
+    public ResponseEntity<?> getById(@PathVariable("id") Integer id) {
+        try {
+            BookDTO dto = bookService.getById(id);
+            return ResponseEntity.ok(dto);
+        } catch (AppException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+
     }
 
     @DeleteMapping(value = "/delete/{id}")
-    public ResponseEntity<Boolean> delete(@PathVariable("id") Integer id) {
-        return ResponseEntity.ok(bookService.delete(id));
+    public ResponseEntity<?> delete(@PathVariable("id") Integer id) {
+        try {
+            Boolean b = bookService.delete(id);
+            return ResponseEntity.ok(bookService.delete(id));
+        } catch (AppException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+
     }
 
     @PutMapping(value = "/update/{id}")
-    public ResponseEntity<Boolean> update(@PathVariable("id") Integer id, @RequestBody BookDTO bookDTO) {
-        return ResponseEntity.ok(bookService.update(id, bookDTO));
+    public ResponseEntity<?> update(@PathVariable("id") Integer id, @RequestBody BookDTO bookDTO) {
+        try {
+            BookDTO dto = bookService.getById(id);
+            return ResponseEntity.ok(bookService.update(id, bookDTO));
+        } catch (AppException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 }

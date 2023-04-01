@@ -20,12 +20,13 @@ public class StudentService {
         entity.setName(dto.getName());
         entity.setSurname(dto.getSurname());
 
-        if (dto.getName() == null || dto.getName().isBlank()){
+        if (dto.getName() == null || dto.getName().isBlank()) {
             throw new AppException("name qani ?");
         }
-        if (dto.getSurname() == null || dto.getSurname().isBlank()){
+        if (dto.getSurname() == null || dto.getSurname().isBlank()) {
             throw new AppException("surname qani ?");
         }
+        entity.setPhone(dto.getPhone());
         studentRepository.saveStudent(entity);
         dto.setId(entity.getId());
         return dto;
@@ -50,7 +51,7 @@ public class StudentService {
         StudentEntity entity = studentRepository.getById(id);
         StudentDTO dto = new StudentDTO();
         if (entity == null) {
-            return dto;
+            throw new AppException("bunaqa idli student yo'q");
         }
         dto.setId(entity.getId());
         dto.setName(entity.getName());
@@ -63,7 +64,7 @@ public class StudentService {
     public Boolean delete(Integer id) {
         StudentEntity entity = studentRepository.getById(id);
         if (entity == null) {
-            return false;
+            throw new AppException("bunaqa idli student yo'q");
         }
         return studentRepository.delete(entity);
     }
@@ -71,7 +72,13 @@ public class StudentService {
     public Boolean update(Integer id, StudentDTO studentDTO) {
         StudentEntity entity = studentRepository.getById(id);
         if (entity == null) {
-            return null;
+            throw new AppException("bunaqa idli student yo'q");
+        }
+        if (studentDTO.getSurname() == null || studentDTO.getSurname().isBlank()) {
+            throw new AppException("surname qani?");
+        }
+        if (studentDTO.getName() == null || studentDTO.getName().isBlank()) {
+            throw new AppException("name qani?");
         }
         entity.setName(studentDTO.getName());
         entity.setSurname(studentDTO.getSurname());
