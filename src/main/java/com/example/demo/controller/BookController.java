@@ -1,8 +1,11 @@
 package com.example.demo.controller;
 
 import com.example.demo.dto.BookDTO;
+import com.example.demo.entity.BookEntity;
+import com.example.demo.exp.AppException;
 import com.example.demo.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,28 +17,34 @@ public class BookController {
     private BookService bookService;
 
     @PostMapping(value = "/create")
-    public BookDTO create(@RequestBody BookDTO bookDTO) {
-        return bookService.create(bookDTO);
+    public ResponseEntity<?> create(@RequestBody BookDTO bookDTO) {
+        try {
+            BookDTO dto = bookService.create(bookDTO);
+            return ResponseEntity.ok(bookDTO);
+        } catch (AppException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     @GetMapping("/list")
-    public List<BookDTO> getAll() {
+    public ResponseEntity<List<BookDTO>> getAll() {
         List<BookDTO> list = bookService.getAll();
-        return list;
+        return ResponseEntity.ok(list);
     }
 
     @GetMapping(value = "/get/{id}")
-    public BookDTO getById(@PathVariable("id") Integer id) {
-        return bookService.getById(id);
+    public ResponseEntity<BookDTO> getById(@PathVariable("id") Integer id) {
+        BookDTO dto = bookService.getById(id);
+        return ResponseEntity.ok(dto);
     }
 
     @DeleteMapping(value = "/delete/{id}")
-    public Boolean delete(@PathVariable("id") Integer id) {
-        return bookService.delete(id);
+    public ResponseEntity<Boolean> delete(@PathVariable("id") Integer id) {
+        return ResponseEntity.ok(bookService.delete(id));
     }
 
     @PutMapping(value = "/update/{id}")
-    public Boolean update(@PathVariable("id") Integer id, @RequestBody BookDTO bookDTO) {
-        return bookService.update(id, bookDTO);
+    public ResponseEntity<Boolean> update(@PathVariable("id") Integer id, @RequestBody BookDTO bookDTO) {
+        return ResponseEntity.ok(bookService.update(id, bookDTO));
     }
 }

@@ -4,24 +4,24 @@ Content-Type: application/json
 
 {
   "studentId": 1,
-  "bookId": 1,
-  "returnedDate": "2023-09-09"
+  "bookId": 1
 }
 
 ### update student book
-PUT http://localhost:8081/student_book/update/1
+PUT http://localhost:8081/student_book/update/9c514e78-721a-43a5-924e-dc2e2b822e53
 Content-Type: application/json
 
 {
+  "id": "9c514e78-721a-43a5-924e-dc2e2b822e53",
   "studentId": 1,
   "bookId": 1,
-  "returnedDate": "2024-09-09"
+  "returnedDate": "2023-01-10"
 }
 ### student book list
 GET http://localhost:8081/student_book/list
 
 ### student book by id
-GET http://localhost:8081/student_book/get/1
+ GET http://localhost:8081/student_book/get/9c514e78-721a-43a5-924e-dc2e2b822e53
 
 ### return all student taken book
 GET http://localhost:8081/student_book/student/1

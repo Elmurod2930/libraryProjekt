@@ -5,6 +5,7 @@ import com.example.demo.dto.StudentBookDTO;
 import com.example.demo.entity.BookEntity;
 import com.example.demo.entity.StudentBookEntity;
 import com.example.demo.entity.StudentEntity;
+import com.example.demo.exp.AppException;
 import com.example.demo.repository.BookRepository;
 import com.example.demo.repository.StudentBookRepository;
 import com.example.demo.repository.StudentRepository;
@@ -24,10 +25,23 @@ public class StudentBookService {
     private StudentRepository studentRepository;
 
     public StudentBookDTO create(StudentBookDTO studentBookDTO) {
+        if (studentBookDTO.getBookId() == null) {
+            throw new AppException("book id qani?");
+        }
+        if (studentBookDTO.getStudentId() == null) {
+            throw new AppException("student id qani?");
+        }
+        BookEntity book = bookRepository.getById(studentBookDTO.getBookId());
+        if (book == null) {
+            throw new AppException("bunaqa idli kitob yo'q");
+        }
+        StudentEntity student = studentRepository.getById(studentBookDTO.getBookId());
+        if (student == null) {
+            throw new AppException("bunaqa idli student yo'q");
+        }
         StudentBookEntity entity = new StudentBookEntity();
-        entity.setBookId(studentBookDTO.getBookId());
-        entity.setStudentId(studentBookDTO.getStudentId());
-        entity.setReturnedDate(studentBookDTO.getReturnedDate());
+        entity.setBook(book);
+        entity.setStudent(student);
         studentBookRepository.create(entity);
         return studentBookDTO;
     }
@@ -36,34 +50,29 @@ public class StudentBookService {
         StudentBookEntity entity = studentBookRepository.getById(id);
         BookDTO dto = new BookDTO();
         if (entity == null) {
-            return dto;
+            throw new AppException("bunaqa idli student_book yo'q");
         }
-        entity.setBookId(studentBookDTO.getBookId());
-        entity.setStudentId(studentBookDTO.getStudentId());
-        entity.setReturnedDate(studentBookDTO.getReturnedDate());
+        BookEntity book = bookRepository.getById(studentBookDTO.getBookId());
+        if (book == null) {
+            throw new AppException("bunaqa idli kitob yo'q");
+        }
+        StudentEntity student = studentRepository.getById(studentBookDTO.getStudentId());
+        if (student == null) {
+            throw new AppException("bunaqa idli student yo'q");
+        }
+        entity.setBook(book);
+        entity.setStudent(student);
         studentBookRepository.update(entity);
-        BookEntity bookEntity = bookRepository.getById(entity.getBookId());
-        dto.setId(bookEntity.getId());
-        dto.setAuthor(bookEntity.getAuthor());
-        dto.setTitle(bookEntity.getTitle());
-        dto.setPublishYear(bookEntity.getPublishYear());
+        dto.setId(book.getId());
+        dto.setAuthor(book.getAuthor());
+        dto.setTitle(book.getTitle());
+        dto.setPublishYear(book.getPublishYear());
         return dto;
     }
 
     public List<StudentBookDTO> getAll() {
         List<StudentBookEntity> entityList = studentBookRepository.getAll();
-        List<StudentBookDTO> list = new LinkedList<>();
-        for (StudentBookEntity entity : entityList) {
-            StudentBookDTO dto = new StudentBookDTO();
-            dto.setBookId(entity.getBookId());
-            dto.setStudentId(entity.getStudentId());
-            dto.setCreatedDate(entity.getCreatedDate());
-            dto.setReturnedDate(entity.getReturnedDate());
-            dto.setDuration(entity.getDuration());
-            dto.setStatus(entity.getStatus());
-            list.add(dto);
-        }
-        return list;
+        return getStudentBookDTO(entityList);
     }
 
     public StudentBookDTO getById(String id) {
@@ -72,8 +81,8 @@ public class StudentBookService {
         if (entity == null) {
             return dto;
         }
-        dto.setBookId(entity.getBookId());
-        dto.setStudentId(entity.getStudentId());
+        dto.setBookId(entity.getBook().getId());
+        dto.setStudentId(entity.getStudent().getId());
         dto.setCreatedDate(entity.getCreatedDate());
         dto.setReturnedDate(entity.getReturnedDate());
         dto.setDuration(entity.getDuration());
@@ -105,11 +114,16 @@ public class StudentBookService {
 
     public List<StudentBookDTO> getTakenBook(Integer bookId) {
         List<StudentBookEntity> entityList = studentBookRepository.getTakenBookById(bookId);
+        return getStudentBookDTO(entityList);
+    }
+
+    public List<StudentBookDTO> getStudentBookDTO(List<StudentBookEntity> entityList) {
         List<StudentBookDTO> list = new LinkedList<>();
         for (StudentBookEntity entity : entityList) {
             StudentBookDTO dto = new StudentBookDTO();
-            dto.setBookId(entity.getBookId());
-            dto.setStudentId(entity.getStudentId());
+            dto.setId(entity.getId());
+            dto.setBookId(entity.getBook().getId());
+            dto.setStudentId(entity.getStudent().getId());
             dto.setCreatedDate(entity.getCreatedDate());
             dto.setReturnedDate(entity.getReturnedDate());
             dto.setDuration(entity.getDuration());

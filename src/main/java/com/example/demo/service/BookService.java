@@ -2,6 +2,7 @@ package com.example.demo.service;
 
 import com.example.demo.dto.BookDTO;
 import com.example.demo.entity.BookEntity;
+import com.example.demo.exp.AppException;
 import com.example.demo.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,16 @@ public class BookService {
         entity.setAuthor(dto.getAuthor());
         entity.setTitle(dto.getTitle());
         entity.setPublishYear(dto.getPublishYear());
+        if (dto.getAuthor() == null || dto.getAuthor().isBlank()){
+            throw new AppException("author qani ?");
+        }
+        if (dto.getTitle() == null || dto.getTitle().isBlank()){
+            throw new AppException("title qani ?");
+        }
+        if (dto.getPublishYear() == null){
+            throw new AppException("publish year qani ?");
+        }
+
         bookRepository.saveStudent(entity);
         dto.setId(entity.getId());
         return dto;

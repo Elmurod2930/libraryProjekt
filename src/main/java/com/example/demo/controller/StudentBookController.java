@@ -2,8 +2,10 @@ package com.example.demo.controller;
 
 import com.example.demo.dto.BookDTO;
 import com.example.demo.dto.StudentBookDTO;
+import com.example.demo.exp.AppException;
 import com.example.demo.service.StudentBookService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,32 +17,42 @@ public class StudentBookController {
     private StudentBookService studentBookService;
 
     @PostMapping(value = "/create")
-    public StudentBookDTO create(@RequestBody StudentBookDTO studentBookDTO) {
-        return studentBookService.create(studentBookDTO);
+    public ResponseEntity<?> create(@RequestBody StudentBookDTO studentBookDTO) {
+        try {
+            StudentBookDTO dto = studentBookService.create(studentBookDTO);
+            return ResponseEntity.ok(studentBookDTO);
+        } catch (AppException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     @PutMapping(value = "/update/{id}")
-    public BookDTO update(@PathVariable("id") String id, @RequestBody StudentBookDTO studentBookDTO) {
-        return studentBookService.update(id, studentBookDTO);
+    public ResponseEntity<?> update(@PathVariable("id") String id, @RequestBody StudentBookDTO studentBookDTO) {
+        try {
+            BookDTO dto = studentBookService.update(id, studentBookDTO);
+            return ResponseEntity.ok(studentBookDTO);
+        } catch (AppException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     @GetMapping(value = "/list")
-    public List<StudentBookDTO> getAll() {
-        return studentBookService.getAll();
+    public ResponseEntity<List<StudentBookDTO>> getAll() {
+        return ResponseEntity.ok(studentBookService.getAll());
     }
 
     @GetMapping(value = "/get/{id}")
-    public StudentBookDTO getById(@PathVariable("id") String id) {
-        return studentBookService.getById(id);
+    public ResponseEntity<StudentBookDTO> getById(@PathVariable("id") String id) {
+        return ResponseEntity.ok(studentBookService.getById(id));
     }
 
     @GetMapping(value = "/student/{id}")
-    public List<BookDTO> getStudentTakenList(@PathVariable("id") Integer id) {
-        return studentBookService.getStudentTakenList(id);
+    public ResponseEntity<List<BookDTO>> getStudentTakenList(@PathVariable("id") Integer id) {
+        return ResponseEntity.ok(studentBookService.getStudentTakenList(id));
     }
 
     @GetMapping(value = "/book/{id}")
-    public List<StudentBookDTO> getTakenBook(@PathVariable("id") Integer id) {
-        return studentBookService.getTakenBook(id);
+    public ResponseEntity<List<StudentBookDTO>> getTakenBook(@PathVariable("id") Integer id) {
+        return ResponseEntity.ok(studentBookService.getTakenBook(id));
     }
 }

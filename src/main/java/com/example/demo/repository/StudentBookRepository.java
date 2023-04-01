@@ -59,7 +59,7 @@ public class StudentBookRepository {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
         try {
-            Query<StudentBookEntity> query = session.createQuery("from StudentBookEntity ", StudentBookEntity.class);
+            Query<StudentBookEntity> query = session.createQuery("from student_book ", StudentBookEntity.class);
             return query.getResultList();
         } catch (RuntimeException e) {
             return new LinkedList<>();
@@ -73,7 +73,7 @@ public class StudentBookRepository {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
         try {
-            Query<Integer> query = session.createQuery("select bookId from StudentBookEntity where studentId=:id");
+            Query<Integer> query = session.createQuery("select bookId from student_book where studentId=:id");
             query.setParameter("id", studentId);
             return query.getResultList();
         } catch (RuntimeException e) {
@@ -88,7 +88,7 @@ public class StudentBookRepository {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
         try {
-            Query<StudentBookEntity> query = session.createQuery("from StudentBookEntity where bookId=:id", StudentBookEntity.class);
+            Query<StudentBookEntity> query = session.createQuery("from student_book where bookId=:id", StudentBookEntity.class);
             query.setParameter("id", bookId);
             return query.getResultList();
         } catch (RuntimeException e) {

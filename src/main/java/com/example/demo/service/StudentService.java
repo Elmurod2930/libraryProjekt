@@ -2,6 +2,7 @@ package com.example.demo.service;
 
 import com.example.demo.dto.StudentDTO;
 import com.example.demo.entity.StudentEntity;
+import com.example.demo.exp.AppException;
 import com.example.demo.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,7 +19,13 @@ public class StudentService {
         StudentEntity entity = new StudentEntity();
         entity.setName(dto.getName());
         entity.setSurname(dto.getSurname());
-        entity.setPhone(dto.getPhone());
+
+        if (dto.getName() == null || dto.getName().isBlank()){
+            throw new AppException("name qani ?");
+        }
+        if (dto.getSurname() == null || dto.getSurname().isBlank()){
+            throw new AppException("surname qani ?");
+        }
         studentRepository.saveStudent(entity);
         dto.setId(entity.getId());
         return dto;

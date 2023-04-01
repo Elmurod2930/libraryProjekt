@@ -16,10 +16,16 @@ public class StudentBookEntity {
     @Id
     @GeneratedValue
     private UUID id;
-    @Column(name = "student_id")
-    private Integer studentId;
-    @Column(name = "book_id")
-    private Integer bookId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "student_id")
+    private StudentEntity student;
+//    @Column(name = "student_id")
+//    private Integer studentId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "book_id")
+    private BookEntity book;
+//    @Column(name = "book_id")
+//    private Integer bookId;
     @CreationTimestamp
     private Timestamp createdDate;
     @Column(name = "status")

@@ -30,7 +30,7 @@ public class BookRepository {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
         try {
-            Query<BookEntity> query = session.createQuery("from BookEntity", BookEntity.class);
+            Query<BookEntity> query = session.createQuery("from  books ", BookEntity.class);
             return query.getResultList();
         } catch (RuntimeException e) {
             return new LinkedList<>();
